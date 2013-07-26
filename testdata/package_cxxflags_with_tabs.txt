@@ -1,0 +1,4 @@
+PACKAGE_CXXFLAGS = \
+                 -g 	-DFOO=1 \
+                 -m64
+
