@@ -123,7 +123,9 @@ func (p *Parser) run() error {
 
 		fct, ok := p.table[p.tokens[0]]
 		if !ok {
-			return fmt.Errorf("rcore2yml: unknown token [%v]", tokens[0])
+			fmt.Fprintf(os.Stderr, "**warning** rcore2yml: unknown token [%v]\n", tokens[0])
+			bline = nil
+			continue
 		}
 		err = fct(p)
 		if err != nil {
@@ -149,7 +151,12 @@ func parse_line(data []byte) ([]string, error) {
 		}
 	}
 
-	if tokens[1] == "=" {
+	if strings.HasSuffix(tokens[0], "=") {
+		slice := strings.Split(tokens[0], "=")
+		tokens[0] = slice[0]
+	}
+
+	if len(tokens) > 1 && tokens[1] == "=" {
 		tokens = append(tokens[:1], tokens[2:]...)
 	}
 
@@ -261,18 +268,21 @@ type ParseFunc func(p *Parser) error
 
 var g_dispatch = map[string]ParseFunc{
 	"PACKAGE":          parsePackage,
-	"PACKAGE_OBJFLAGS": parseObjFlags,
-	"PACKAGE_CXXFLAGS": parseCxxFlags,
-	"PACKAGE_LDFLAGS":  parseLdFlags,
-	"PACKAGE_PRELOAD":  parsePreload,
-	"PACKAGE_PEDANTIC": parsePedantic,
-	"PACKAGE_REFLEX":   parseReflex,
-	"PACKAGE_DEP":      parseDep,
-	"PACKAGE_TRYDEP":   parseTryDep,
+	"PACKAGE_BINFLAGS": parseBinFlags,
 	"PACKAGE_CLEAN":    parseClean,
-	"PACKAGE_NOOPT":    parseNoOpt,
+	"PACKAGE_CXXFLAGS": parseCxxFlags,
+	"PACKAGE_DEP":      parseDep,
+	"PACKAGE_LDFLAGS":  parseLdFlags,
 	"PACKAGE_NOCC":     parseNoCC,
+	"PACKAGE_NOOPT":    parseNoOpt,
+	"PACKAGE_OBJFLAGS": parseObjFlags,
+	"PACKAGE_PEDANTIC": parsePedantic,
+	"PACKAGE_PRELOAD":  parsePreload,
+	"PACKAGE_REFLEX":   parseReflex,
+	"PACKAGE_TRYDEP":   parseTryDep,
 	"include":          parseInclude,
+	"ifneq":            parseIfNeq,
+	"endif":            parseEndIf,
 }
 
 func parsePackage(p *Parser) error {
@@ -370,6 +380,11 @@ func parsePackage(p *Parser) error {
 }
 
 func parseObjFlags(p *Parser) error {
+	var err error
+	return err
+}
+
+func parseBinFlags(p *Parser) error {
 	var err error
 	return err
 }
@@ -519,6 +534,16 @@ func parseNoCC(p *Parser) error {
 	return err
 }
 func parseInclude(p *Parser) error {
+	var err error
+	return err
+}
+
+func parseIfNeq(p *Parser) error {
+	var err error
+	return err
+}
+
+func parseEndIf(p *Parser) error {
 	var err error
 	return err
 }
