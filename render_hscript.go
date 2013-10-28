@@ -15,9 +15,9 @@ func (r *Renderer) render_hscript() error {
 	)
 	handle_err(err)
 
-	enc := hlib.NewHscriptEncoder(r.w)
+	enc := hlib.NewHscriptYmlEncoder(r.w)
 	if enc == nil {
-		return fmt.Errorf("rcore2yml: got nil hlib.HscriptEncoder")
+		return fmt.Errorf("rcore2yml: got nil hlib.HscriptYmlEncoder")
 	}
 
 	err = enc.Encode(&r.pkg)
