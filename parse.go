@@ -310,7 +310,7 @@ func parsePackage(p *Parser) error {
 		p.req.Wscript.Build.Targets,
 		hlib.Target_t{
 			Name:     name,
-			Features: []string{"build_linklib", "build_rootcint_dict"},
+			Features: []string{"atlas_library", "atlas_dictionary"},
 			Target:   name,
 			Source: []hlib.Value{
 				hlib.DefaultValue("source",
@@ -355,7 +355,7 @@ func parsePackage(p *Parser) error {
 			p.req.Wscript.Build.Targets,
 			hlib.Target_t{
 				Name:     prog,
-				Features: []string{"build_app"},
+				Features: []string{"atlas_application"},
 				Target:   prog,
 				Source: []hlib.Value{
 					hlib.DefaultValue("source",
@@ -476,7 +476,7 @@ func parseReflex(p *Parser) error {
 
 		features := make([]string, 0, len(wtgt.Features))
 		for _, x := range wtgt.Features {
-			if x != "build_reflex_dict" {
+			if x != "atlas_dictionary" {
 				features = append(features, x)
 			}
 		}
