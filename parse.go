@@ -268,11 +268,13 @@ type ParseFunc func(p *Parser) error
 
 var g_dispatch = map[string]ParseFunc{
 	"PACKAGE":          parsePackage,
+	"PACKAGE_AUTODEP":  parseAutoDep,
 	"PACKAGE_BINFLAGS": parseBinFlags,
 	"PACKAGE_CLEAN":    parseClean,
 	"PACKAGE_CXXFLAGS": parseCxxFlags,
 	"PACKAGE_DEP":      parseDep,
 	"PACKAGE_LDFLAGS":  parseLdFlags,
+	"PACKAGE_LIBFLAGS": parseLibFlags,
 	"PACKAGE_NOCC":     parseNoCC,
 	"PACKAGE_NOOPT":    parseNoOpt,
 	"PACKAGE_OBJFLAGS": parseObjFlags,
@@ -448,6 +450,10 @@ func parseLdFlags(p *Parser) error {
 	return err
 }
 
+func parseLibFlags(p *Parser) error {
+	return parseLdFlags(p)
+}
+
 func parsePreload(p *Parser) error {
 	var err error
 	return err
@@ -507,6 +513,11 @@ func parseDep(p *Parser) error {
 }
 
 func parseTryDep(p *Parser) error {
+	var err error
+	return err
+}
+
+func parseAutoDep(p *Parser) error {
 	var err error
 	return err
 }
